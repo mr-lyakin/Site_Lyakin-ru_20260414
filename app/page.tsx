@@ -67,16 +67,29 @@ export default function Home() {
   return (
     <SiteShell>
       <section className="bg-gradient-to-b from-slate-900 to-blue-950 text-white">
-        <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-20">
-          <div className="space-y-5">
+        <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:px-8 lg:py-20">
+          <div className="mx-auto w-full max-w-sm lg:mx-0">
+            <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-2xl">
+              <Image
+                src="/andrey-lyakin.png"
+                alt="Андрей Юрьевич Лякин"
+                width={704}
+                height={936}
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
+          </div>
+
+          <div className="space-y-5 lg:pl-1">
             <p className="inline-flex w-fit rounded-full bg-white/10 px-4 py-1 text-sm">
               Эксперт по управлению
             </p>
-            <h1 className="max-w-4xl text-3xl font-bold leading-tight sm:text-4xl">
+            <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
               В старинной притче у трех рабочих, таскающих камни, спросили:
               &quot;Чем вы занимаетесь?&quot;
             </h1>
-            <div className="max-w-3xl space-y-3 text-base leading-relaxed text-slate-200">
+            <div className="space-y-3 text-base leading-relaxed text-slate-200">
               <p>
                 И один ответил — &quot;Пытаюсь выжить, таская тяжеленные камни с
                 утра до ночи&quot;.
@@ -97,19 +110,6 @@ export default function Home() {
                 неустанно граня не огранённые грани, надеюсь, будущих
                 бриллиантов русской элиты.
               </p>
-            </div>
-          </div>
-
-          <div className="mx-auto w-full max-w-sm lg:mx-0 lg:justify-self-end">
-            <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-2xl">
-              <Image
-                src="/andrey-lyakin.png"
-                alt="Андрей Юрьевич Лякин"
-                width={704}
-                height={936}
-                className="h-full w-full object-cover"
-                priority
-              />
             </div>
           </div>
         </div>
