@@ -1,8 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SiteShell } from "../components/site-shell";
-import { blogPosts } from "../lib/content";
+import { getBlogPosts } from "../lib/blog-store";
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogPosts = await getBlogPosts();
   return (
     <SiteShell>
       <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
@@ -14,6 +16,11 @@ export default function BlogPage() {
         <div className="mt-8 space-y-4">
           {blogPosts.map((post) => (
             <article key={post.slug} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
+              {post.coverImageUrl && (
+                <div className="mb-4 overflow-hidden rounded-xl">
+                  <Image src={post.coverImageUrl} alt={post.title} width={1200} height={630} className="h-48 w-full object-cover" />
+                </div>
+              )}
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 {post.publishedAt} • {post.readTime}
               </p>

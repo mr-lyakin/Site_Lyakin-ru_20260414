@@ -1,29 +1,10 @@
+import Image from "next/image";
+import Link from "next/link";
 import { SiteShell } from "../components/site-shell";
+import { getEvents } from "../lib/events-store";
 
-const events = [
-  {
-    type: "Ближайшее",
-    title: "Открытый кубок Санкт-Петербурга по проектному управлению",
-    meta: "22 сентября 2026 • Санкт-Петербург",
-  },
-  {
-    type: "Недавнее",
-    title: "Лекция для Международного бизнес-клуба ДИАЛОГИ",
-    meta: "2025 • Москва",
-  },
-  {
-    type: "Архив",
-    title: "Конференция «PM Bridge»",
-    meta: "Санкт-Петербург • профессиональное сообщество PM",
-  },
-  {
-    type: "Архив",
-    title: "Программа в Московской школе управления SKOLKOVO",
-    meta: "Мастер-классы и образовательные треки",
-  },
-];
-
-export default function CalendarGalleryPage() {
+export default async function CalendarGalleryPage() {
+  const events = await getEvents();
   return (
     <SiteShell>
       <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
@@ -33,14 +14,20 @@ export default function CalendarGalleryPage() {
           выступления.
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {events.map((event) => (
+          {events.map((event, index) => (
             <article key={event.title} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-              <p className="text-xs uppercase tracking-wide text-slate-500">{event.type}</p>
+              <p className="text-xs uppercase tracking-wide text-slate-500">{index === 0 ? "Ближайшее" : "Событие"}</p>
               <h2 className="mt-2 text-xl font-semibold text-slate-900">{event.title}</h2>
               <p className="mt-2 text-slate-600">{event.meta}</p>
-              <div className="mt-4 h-40 rounded-xl bg-slate-100 p-4 text-sm text-slate-500">
-                Здесь можно разместить фото/видео с мероприятия.
-              </div>
+              <p className="mt-3 text-sm text-slate-700">{event.excerpt}</p>
+              {event.coverImageUrl && (
+                <div className="mt-4 overflow-hidden rounded-xl">
+                  <Image src={event.coverImageUrl} alt={event.title} width={1200} height={630} className="h-44 w-full object-cover" />
+                </div>
+              )}
+              <Link href={`/calendar-gallery/${event.slug}`} className="mt-4 inline-flex text-sm font-semibold text-slate-800">
+                Открыть мероприятие →
+              </Link>
             </article>
           ))}
         </div>

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SiteShell } from "./components/site-shell";
-import { blogPosts } from "./lib/content";
+import { getBlogPosts } from "./lib/blog-store";
+import { getEvents } from "./lib/events-store";
 
 const sections = [
   {
@@ -42,28 +43,9 @@ const sections = [
   },
 ];
 
-const latestEvents = [
-  {
-    title: "Открытый кубок Санкт-Петербурга по проектному управлению",
-    meta: "22 сентября 2026 • Санкт-Петербург",
-    excerpt:
-      "Деловые игры и практические форматы для руководителей и участников проектной деятельности.",
-  },
-  {
-    title: "Лекция для Международного бизнес-клуба ДИАЛОГИ",
-    meta: "2025 • Москва",
-    excerpt:
-      "Выступление на тему «Управляя будущим» и обсуждение современных подходов к управлению.",
-  },
-  {
-    title: "Стратегическая сессия для выпускников ДВФУ",
-    meta: "2025 • Владивосток",
-    excerpt:
-      "Работа с управленческими сценариями, приоритетами и практиками принятия решений в условиях изменений.",
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const blogPosts = await getBlogPosts();
+  const latestEvents = (await getEvents()).slice(0, 3);
   return (
     <SiteShell>
       <section className="bg-gradient-to-b from-slate-900 to-blue-950 text-white">
@@ -157,10 +139,7 @@ export default function Home() {
                 <p className="text-xs uppercase tracking-wide text-slate-500">{event.meta}</p>
                 <h3 className="mt-2 text-lg font-semibold text-slate-900">{event.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-slate-600">{event.excerpt}</p>
-                <Link
-                  href="/calendar-gallery"
-                  className="mt-4 inline-flex text-sm font-semibold text-slate-800"
-                >
+                <Link href="/calendar-gallery" className="mt-4 inline-flex text-sm font-semibold text-slate-800">
                   Открыть календарь →
                 </Link>
               </article>

@@ -1,18 +1,16 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { SiteShell } from "../../components/site-shell";
-import { blogPosts } from "../../lib/content";
+import { getBlogPosts } from "../../lib/blog-store";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
-}
-
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
+  const blogPosts = await getBlogPosts();
   const post = blogPosts.find((item) => item.slug === slug);
 
   if (!post) {
@@ -39,13 +37,17 @@ export default async function BlogPostPage({ params }: Props) {
         <p className="text-xs uppercase tracking-wide text-slate-500">
           {post.publishedAt} • {post.readTime}
         </p>
+        {post.coverImageUrl && (
+          <div className="mt-4 overflow-hidden rounded-2xl">
+            <Image src={post.coverImageUrl} alt={post.title} width={1400} height={800} className="h-auto w-full object-cover" />
+          </div>
+        )}
         <h1 className="mt-2 text-4xl font-bold text-slate-900">{post.title}</h1>
         <p className="mt-4 text-lg text-slate-600">{post.excerpt}</p>
-        <div className="mt-8 space-y-5 text-slate-700">
-          {post.content.map((paragraph, idx) => (
-            <p key={`${post.slug}-${idx}`}>{paragraph}</p>
-          ))}
-        </div>
+        <div
+          className="prose prose-slate mt-8 max-w-none text-slate-700 prose-headings:text-slate-900"
+          dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+        />
         <div className="mt-10 flex justify-end">
           <a
             href="#top"
