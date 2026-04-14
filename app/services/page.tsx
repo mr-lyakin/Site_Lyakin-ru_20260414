@@ -1,24 +1,9 @@
+import Image from "next/image";
 import { SiteShell } from "../components/site-shell";
+import { getServices } from "../lib/services-store";
 
-const services = [
-  {
-    title: "Управленческий консалтинг",
-    description:
-      "Постановка современного управления: цифровая трансформация, проектные и процессные офисы, продуктовый подход и запуск изменений.",
-  },
-  {
-    title: "Авторские программы обучения",
-    description:
-      "Курсы и тренинги по темам управления проектами, сложными проектами, процессами, гибридными подходами и Agile/Scrum/Kanban.",
-  },
-  {
-    title: "Стратегические сессии и фасилитация",
-    description:
-      "Модерация круглых столов, стратегические сессии, проектные треки для органов власти и коммерческих компаний.",
-  },
-];
-
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
   return (
     <SiteShell>
       <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
@@ -27,11 +12,23 @@ export default function ServicesPage() {
           Форматы работы подбираются под задачу: от точечного консалтинга до комплексных программ
           развития управленческой системы.
         </p>
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 space-y-4">
           {services.map((service) => (
-            <article key={service.title} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-              <h2 className="text-xl font-semibold text-slate-900">{service.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">{service.description}</p>
+            <article key={service.id} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
+              {service.coverImageUrl && (
+                <div className="mb-4 overflow-hidden rounded-xl">
+                  <Image src={service.coverImageUrl} alt={service.title} width={1200} height={630} className="h-48 w-full object-cover" />
+                </div>
+              )}
+              <p className="text-xs uppercase tracking-wide text-slate-500">
+                {service.publishedAt} • {service.readTime}
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold text-slate-900">{service.title}</h2>
+              <p className="mt-3 text-slate-600">{service.excerpt}</p>
+              <div
+                className="prose prose-slate mt-4 max-w-none text-sm"
+                dangerouslySetInnerHTML={{ __html: service.contentHtml }}
+              />
             </article>
           ))}
         </div>

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getReviews, saveReviews } from "../lib/reviews-store";
 import { getBlogPosts, saveBlogPosts } from "../lib/blog-store";
 import { getEvents, saveEvents } from "../lib/events-store";
+import { getServices, saveServices } from "../lib/services-store";
 import { savePublicUpload } from "../lib/uploads";
 import {
   clearAdminSession,
@@ -226,6 +227,7 @@ export async function addEvent(formData: FormData) {
   const meta = String(formData.get("meta") ?? "").trim();
   const excerpt = String(formData.get("excerpt") ?? "").trim();
   const contentHtml = String(formData.get("contentHtml") ?? "").trim();
+  const coverFile = formData.get("coverImage");
   if (!title || !meta || !excerpt || !contentHtml) return;
 
   const uploadedFiles = formData.getAll("mediaFiles").filter((value): value is File => value instanceof File);
@@ -241,8 +243,7 @@ export async function addEvent(formData: FormData) {
       type: file.type.startsWith("video/") ? "video" : "image",
     });
   }
-  const manualCover = String(formData.get("coverUrl") ?? "").trim();
-  const coverImageUrl = media.find((item) => item.type === "image")?.url ?? (manualCover || undefined);
+  const coverImageUrl = await saveOptionalImageInFolder(coverFile instanceof File ? coverFile : null, "events");
 
   const items = await getEvents();
   const baseSlug = slugify(title) || crypto.randomUUID();
@@ -254,7 +255,7 @@ export async function addEvent(formData: FormData) {
     meta,
     excerpt,
     contentHtml,
-    coverImageUrl,
+    ...(coverImageUrl ? { coverImageUrl } : {}),
     media,
   });
   await saveEvents(items);
@@ -271,7 +272,8 @@ export async function updateEvent(formData: FormData) {
   const meta = String(formData.get("meta") ?? "").trim();
   const excerpt = String(formData.get("excerpt") ?? "").trim();
   const contentHtml = String(formData.get("contentHtml") ?? "").trim();
-  const coverUrl = String(formData.get("coverUrl") ?? "").trim();
+  const removeCover = String(formData.get("removeCover") ?? "") === "on";
+  const coverFile = formData.get("coverImage");
   if (!id || !title || !meta || !excerpt || !contentHtml) return;
 
   const items = await getEvents();
@@ -291,6 +293,7 @@ export async function updateEvent(formData: FormData) {
       type: file.type.startsWith("video/") ? "video" : "image",
     });
   }
+  const newCover = await saveOptionalImageInFolder(coverFile instanceof File ? coverFile : null, "events");
 
   const next = items.map((item) =>
     item.id === id
@@ -301,7 +304,7 @@ export async function updateEvent(formData: FormData) {
           excerpt,
           contentHtml,
           media: [...item.media, ...appendedMedia],
-          coverImageUrl: coverUrl || item.coverImageUrl,
+          coverImageUrl: removeCover ? undefined : newCover ?? item.coverImageUrl,
         }
       : item
   );
@@ -321,4 +324,75 @@ export async function deleteEvent(formData: FormData) {
   revalidatePath("/calendar-gallery");
   revalidatePath("/");
   revalidatePath("/admin/events");
+}
+
+export async function addService(formData: FormData) {
+  if (!(await isAdminAuthenticated())) redirect("/admin/login");
+  const title = String(formData.get("title") ?? "").trim();
+  const excerpt = String(formData.get("excerpt") ?? "").trim();
+  const publishedAt = String(formData.get("publishedAt") ?? "").trim();
+  const readTime = String(formData.get("readTime") ?? "").trim();
+  const contentHtml = String(formData.get("contentHtml") ?? "").trim();
+  const coverFile = formData.get("coverImage");
+  if (!title || !excerpt || !publishedAt || !readTime || !contentHtml) return;
+
+  const coverImageUrl = await saveOptionalImageInFolder(coverFile instanceof File ? coverFile : null, "services");
+  const items = await getServices();
+  const baseSlug = slugify(title) || crypto.randomUUID();
+  const slug = items.some((item) => item.slug === baseSlug) ? `${baseSlug}-${Date.now()}` : baseSlug;
+  items.unshift({
+    id: crypto.randomUUID(),
+    slug,
+    title,
+    excerpt,
+    publishedAt,
+    readTime,
+    contentHtml,
+    ...(coverImageUrl ? { coverImageUrl } : {}),
+  });
+  await saveServices(items);
+  revalidatePath("/services");
+  revalidatePath("/admin/services");
+}
+
+export async function updateService(formData: FormData) {
+  if (!(await isAdminAuthenticated())) redirect("/admin/login");
+  const id = String(formData.get("id") ?? "");
+  const title = String(formData.get("title") ?? "").trim();
+  const excerpt = String(formData.get("excerpt") ?? "").trim();
+  const publishedAt = String(formData.get("publishedAt") ?? "").trim();
+  const readTime = String(formData.get("readTime") ?? "").trim();
+  const contentHtml = String(formData.get("contentHtml") ?? "").trim();
+  const removeCover = String(formData.get("removeCover") ?? "") === "on";
+  const coverFile = formData.get("coverImage");
+  if (!id || !title || !excerpt || !publishedAt || !readTime || !contentHtml) return;
+
+  const newCover = await saveOptionalImageInFolder(coverFile instanceof File ? coverFile : null, "services");
+  const items = await getServices();
+  const next = items.map((item) =>
+    item.id === id
+      ? {
+          ...item,
+          title,
+          excerpt,
+          publishedAt,
+          readTime,
+          contentHtml,
+          coverImageUrl: removeCover ? undefined : newCover ?? item.coverImageUrl,
+        }
+      : item
+  );
+  await saveServices(next);
+  revalidatePath("/services");
+  revalidatePath("/admin/services");
+}
+
+export async function deleteService(formData: FormData) {
+  if (!(await isAdminAuthenticated())) redirect("/admin/login");
+  const id = String(formData.get("id") ?? "");
+  const items = await getServices();
+  const next = items.filter((item) => item.id !== id);
+  await saveServices(next);
+  revalidatePath("/services");
+  revalidatePath("/admin/services");
 }

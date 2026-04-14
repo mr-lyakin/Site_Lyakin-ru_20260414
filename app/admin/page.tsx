@@ -18,7 +18,7 @@ export default async function AdminPage() {
         </form>
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Link href="/admin/reviews" className="rounded-2xl bg-white p-5 ring-1 ring-slate-200 transition hover:ring-slate-400">
           <h2 className="text-lg font-semibold text-slate-900">Отзывы</h2>
           <p className="mt-2 text-sm text-slate-600">Добавление, редактирование, удаление отзывов и фото авторов.</p>
@@ -30,6 +30,10 @@ export default async function AdminPage() {
         <Link href="/admin/events" className="rounded-2xl bg-white p-5 ring-1 ring-slate-200 transition hover:ring-slate-400">
           <h2 className="text-lg font-semibold text-slate-900">Календарь-Галерея</h2>
           <p className="mt-2 text-sm text-slate-600">Мероприятия, rich text, много фото и видео, выбор обложки.</p>
+        </Link>
+        <Link href="/admin/services" className="rounded-2xl bg-white p-5 ring-1 ring-slate-200 transition hover:ring-slate-400">
+          <h2 className="text-lg font-semibold text-slate-900">Обучение и консалтинг</h2>
+          <p className="mt-2 text-sm text-slate-600">Карточки программ в стиле блога с WYSIWYG-редактором.</p>
         </Link>
       </div>
     </section>

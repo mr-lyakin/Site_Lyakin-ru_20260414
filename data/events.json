@@ -6,10 +6,52 @@
     "meta": "22 сентября 2026 • Санкт-Петербург",
     "excerpt": "Деловые игры и практические форматы для руководителей и участников проектной деятельности.",
     "contentHtml": "<p>Открытый кубок объединяет команды из государственного и коммерческого сектора. Формат мероприятия включает деловые игры, управленческие кейсы и экспертные разборы.</p><p>Участники отрабатывают навыки проектного мышления, принятия решений и взаимодействия в условиях ограниченного времени.</p>",
-    "coverImageUrl": "/edu-games-01.png",
+    "coverImageUrl": "/uploads/events/20a3a147-2604-4c7c-b19e-8fbef0671746.jpg",
     "media": [
-      { "url": "/edu-games-01.png", "type": "image" },
-      { "url": "/edu-games-02.png", "type": "image" }
+      {
+        "url": "/edu-games-01.png",
+        "type": "image"
+      },
+      {
+        "url": "/edu-games-02.png",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/ed03e364-7fe6-4343-b41d-ef67fee55db7.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/86f92413-cbc3-4ff6-8818-291c84ef067b.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/9849a18a-9ff5-485b-9d23-3548eed83068.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/89f37fad-e539-411c-9b62-d70946c26083.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/aa1c8999-fe36-4076-8839-3d04626bd56b.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/cfe936a2-969f-487c-83f5-f304db48a2a9.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/c6ee1184-c09b-4d08-90b6-b9be8c5448b4.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/91458111-57ca-4e56-9455-835a4f8bd03f.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/e4ee8beb-d5cd-4027-b550-d228e32560d0.jpg",
+        "type": "image"
+      }
     ]
   },
   {
@@ -21,8 +63,14 @@
     "contentHtml": "<p>Лекция посвящена управлению в условиях высокой неопределенности. Отдельный акцент сделан на системном мышлении, работе с рисками и управленческой зрелости команд.</p>",
     "coverImageUrl": "/edu-spik-05.png",
     "media": [
-      { "url": "/edu-spik-05.png", "type": "image" },
-      { "url": "/edu-spik-03.png", "type": "image" }
+      {
+        "url": "/edu-spik-05.png",
+        "type": "image"
+      },
+      {
+        "url": "/edu-spik-03.png",
+        "type": "image"
+      }
     ]
   },
   {
@@ -34,8 +82,22 @@
     "contentHtml": "<p>Сессия помогает выпускникам бизнес-программ выстроить общий язык изменений и перевести стратегические идеи в план практической реализации.</p>",
     "coverImageUrl": "/edu-games-03.png",
     "media": [
-      { "url": "/edu-games-03.png", "type": "image" },
-      { "url": "/edu-games-04.png", "type": "image" }
+      {
+        "url": "/edu-games-03.png",
+        "type": "image"
+      },
+      {
+        "url": "/edu-games-04.png",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/53dad3b6-5513-4a56-a1fd-8d16d4d27e80.jpg",
+        "type": "image"
+      },
+      {
+        "url": "/uploads/events/c577a4ae-8096-493f-9f27-41a8f6e4847d.jpg",
+        "type": "image"
+      }
     ]
   }
 ]

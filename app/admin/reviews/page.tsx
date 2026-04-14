@@ -24,6 +24,9 @@ export default async function AdminReviewsPage() {
             <Link href="/admin/events" className="hover:text-slate-900">
               Календарь-Галерея
             </Link>
+            <Link href="/admin/services" className="hover:text-slate-900">
+              Обучение и консалтинг
+            </Link>
           </div>
         </div>
         <form action={logoutAdmin}>
@@ -35,7 +38,7 @@ export default async function AdminReviewsPage() {
 
       <div className="mt-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
         <h2 className="text-xl font-semibold text-slate-900">Добавить отзыв</h2>
-        <form action={addReview} encType="multipart/form-data" className="mt-4 space-y-3">
+        <form action={addReview} className="mt-4 space-y-3">
           <input name="program" placeholder="Название программы или тренинга" className="w-full rounded-lg border px-3 py-2 text-sm" />
           <textarea name="text" rows={4} placeholder="Текст отзыва" className="w-full rounded-lg border px-3 py-2 text-sm" />
           <input name="author" placeholder="Автор отзыва" className="w-full rounded-lg border px-3 py-2 text-sm" />
@@ -49,7 +52,7 @@ export default async function AdminReviewsPage() {
       <div className="mt-8 space-y-4">
         {reviews.map((review) => (
           <article key={review.id} className="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
-            <form action={updateReview} encType="multipart/form-data" className="space-y-3">
+            <form action={updateReview} className="space-y-3">
               <input type="hidden" name="id" value={review.id} />
               <input name="program" defaultValue={review.program} className="w-full rounded-lg border px-3 py-2 text-sm" />
               <textarea name="text" defaultValue={review.text} rows={3} className="w-full rounded-lg border px-3 py-2 text-sm" />
