@@ -49,11 +49,11 @@ export default async function Home() {
   return (
     <SiteShell>
       <section className="bg-gradient-to-b from-slate-900 to-blue-950 text-white">
-        <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:px-8 lg:py-20">
-          <div className="mx-auto w-full max-w-sm lg:mx-0">
+        <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-start lg:px-8 lg:py-20">
+          <div className="mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
             <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/10 shadow-2xl">
               <Image
-                src="/andrey-lyakin.png"
+                src="/hero-main-2026-04-13-v2.png"
                 alt="Андрей Юрьевич Лякин"
                 width={704}
                 height={936}

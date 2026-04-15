@@ -13,11 +13,17 @@ export default async function ServicesPage() {
           развития управленческой системы.
         </p>
         <div className="mt-8 space-y-4">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <article key={service.id} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
               {service.coverImageUrl && (
                 <div className="mb-4 overflow-hidden rounded-xl">
-                  <Image src={service.coverImageUrl} alt={service.title} width={1200} height={630} className="h-48 w-full object-cover" />
+                  <Image
+                    src={service.coverImageUrl}
+                    alt={service.title}
+                    width={1200}
+                    height={630}
+                    className={`h-48 w-full object-cover ${index === 0 ? "object-top" : "object-center"}`}
+                  />
                 </div>
               )}
               <p className="text-xs uppercase tracking-wide text-slate-500">

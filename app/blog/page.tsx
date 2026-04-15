@@ -13,6 +13,16 @@ export default async function BlogPage() {
           Здесь собраны статьи и лонгриды по управлению проектами, системному развитию организаций
           и современным подходам к управлению.
         </p>
+        <div className="mt-6 overflow-hidden rounded-2xl">
+          <Image
+            src="/blog-top-hero.png"
+            alt="Обложка раздела Блог"
+            width={1904}
+            height={655}
+            className="h-auto w-full object-cover"
+            priority
+          />
+        </div>
         <div className="mt-8 space-y-4">
           {blogPosts.map((post) => (
             <article key={post.slug} className="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
