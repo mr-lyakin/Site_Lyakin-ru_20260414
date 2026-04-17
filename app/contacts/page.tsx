@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { SiteShell } from "../components/site-shell";
+
+export const metadata: Metadata = {
+  title: "Контакты",
+  description: "Связаться по email, Telegram или обсудить консалтинг и обучение команды.",
+  alternates: { canonical: "/contacts" },
+};
 
 export default function ContactsPage() {
   return (

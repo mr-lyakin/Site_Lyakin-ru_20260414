@@ -1,12 +1,46 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteShell } from "../../components/site-shell";
 import { getEvents } from "../../lib/events-store";
+import { getSiteUrl, toAbsoluteUrl } from "@/lib/site-url";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const events = await getEvents();
+  const event = events.find((item) => item.slug === slug);
+  if (!event) {
+    return {};
+  }
+  const pageUrl = `${getSiteUrl()}/calendar-gallery/${event.slug}`;
+  const description = event.excerpt?.trim() || event.meta;
+  const ogImages = event.coverImageUrl
+    ? [{ url: toAbsoluteUrl(event.coverImageUrl), alt: event.title }]
+    : undefined;
+
+  return {
+    title: event.title,
+    description,
+    alternates: { canonical: `/calendar-gallery/${event.slug}` },
+    openGraph: {
+      title: event.title,
+      description,
+      url: pageUrl,
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description,
+      images: ogImages?.map((i) => i.url),
+    },
+  };
+}
 
 export default async function EventPage({ params }: Props) {
   const { slug } = await params;

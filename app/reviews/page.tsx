@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import { ReviewsCarousel } from "../components/reviews-carousel";
 import { ThanksCarousel } from "../components/thanks-carousel";
 import { getReviews } from "../lib/reviews-store";
 import { SiteShell } from "../components/site-shell";
- 
+
+export const metadata: Metadata = {
+  title: "Отзывы",
+  description: "Рекомендации клиентов и благодарности за обучение, консалтинг и экспертную поддержку.",
+  alternates: { canonical: "/reviews" },
+};
+
 export default async function ReviewsPage() {
   const reviews = await getReviews();
 

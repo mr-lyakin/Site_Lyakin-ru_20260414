@@ -1,12 +1,46 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { SiteShell } from "../../components/site-shell";
 import { getBlogPosts } from "../../lib/blog-store";
+import { getSiteUrl, toAbsoluteUrl } from "@/lib/site-url";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const blogPosts = await getBlogPosts();
+  const post = blogPosts.find((item) => item.slug === slug);
+  if (!post) {
+    return {};
+  }
+  const pageUrl = `${getSiteUrl()}/blog/${post.slug}`;
+  const ogImages = post.coverImageUrl
+    ? [{ url: toAbsoluteUrl(post.coverImageUrl), alt: post.title }]
+    : undefined;
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: pageUrl,
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: ogImages?.map((i) => i.url),
+    },
+  };
+}
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;

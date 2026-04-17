@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteShell } from "../components/site-shell";
 import { getEvents } from "../lib/events-store";
+
+export const metadata: Metadata = {
+  title: "Календарь-Галерея",
+  description:
+    "Анонсы и отчёты о мероприятиях: тренинги, форумы, мастер-классы и выступления.",
+  alternates: { canonical: "/calendar-gallery" },
+};
 
 export default async function CalendarGalleryPage() {
   const events = await getEvents();

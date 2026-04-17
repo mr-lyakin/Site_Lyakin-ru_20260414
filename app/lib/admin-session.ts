@@ -1,8 +1,29 @@
 import crypto from "crypto";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 const SESSION_COOKIE_NAME = "admin_session";
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 8; // 8 hours
+
+/**
+ * Cookie с флагом Secure не работает по HTTP: браузер не сохранит/не отправит её.
+ * В production за nginx нужен X-Forwarded-Proto (обычно уже есть).
+ * Явно: ADMIN_COOKIE_SECURE=1 или ADMIN_COOKIE_INSECURE=1.
+ */
+async function shouldUseSecureSessionCookie(): Promise<boolean> {
+  if (process.env.ADMIN_COOKIE_INSECURE === "1") return false;
+  if (process.env.ADMIN_COOKIE_SECURE === "1") return true;
+
+  const h = await headers();
+  const forwarded = h.get("x-forwarded-proto");
+  if (forwarded) {
+    return forwarded.split(",")[0].trim().toLowerCase() === "https";
+  }
+
+  if (process.env.NODE_ENV !== "production") return false;
+
+  // Прод без прокси-заголовка (например прямой HTTP на IP) — только не-Secure cookie
+  return false;
+}
 
 type SessionPayload = {
   sub: "admin";
@@ -50,10 +71,12 @@ export async function setAdminSession() {
   const signature = sign(payloadEncoded, secret);
   const token = `${payloadEncoded}.${signature}`;
 
+  const secure = await shouldUseSecureSessionCookie();
+
   cookieStore.set(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    secure,
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,
   });

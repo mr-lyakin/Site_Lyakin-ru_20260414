@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { SiteShell } from "./components/site-shell";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 import { getBlogPosts } from "./lib/blog-store";
 import { getEvents } from "./lib/events-store";
 

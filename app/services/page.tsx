@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteShell } from "../components/site-shell";
 import { getServices } from "../lib/services-store";
+
+export const metadata: Metadata = {
+  title: "Обучение и консалтинг",
+  description:
+    "Форматы работы: индивидуальный консалтинг, корпоративные программы, стратегические сессии и мастер-классы по управлению.",
+  alternates: { canonical: "/services" },
+};
 
 export default async function ServicesPage() {
   const services = await getServices();

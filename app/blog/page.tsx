@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { SiteShell } from "../components/site-shell";
 import { getBlogPosts } from "../lib/blog-store";
+
+export const metadata: Metadata = {
+  title: "Блог",
+  description:
+    "Статьи и материалы по управлению проектами, проектному офису, Agile и развитию управленческих систем.",
+  alternates: { canonical: "/blog" },
+};
 
 export default async function BlogPage() {
   const blogPosts = await getBlogPosts();

@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteShell } from "../components/site-shell";
+
+export const metadata: Metadata = {
+  title: "Обо мне",
+  description:
+    "Биография, опыт и направления экспертной деятельности: системное управление, проекты, обучение руководителей.",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (
